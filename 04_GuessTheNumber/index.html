@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Number Guessing Game</title>
+     
     <!-- <link rel="stylesheet" href="style.css" /> -->
     <style>
         *{
@@ -90,7 +91,7 @@
         <p>You have 10 attempts to guess the right number.</p> 
         <div class="removee">
             
-            <div class="forRemovingaftergameend">
+        <div class="forRemovingaftergameend">
                 <form class="form"> 
                     <input type="text" id="guessedInput" > <br>
                     
@@ -126,9 +127,12 @@
         }
         time = 20
         document.querySelector(".clock").innerHTML = `${time} sec`;
+
          timeId = setInterval(() => {
+    
         time--;
         document.querySelector(".clock").innerHTML = `${time} sec`;
+
         
     }, 1000);
 }
@@ -149,11 +153,12 @@ function stopTime(){
         }
     }
 } 
-
-setInterval(stopTime , 1000)
+   setInterval(stopTime , 1000)
 
         //background color changer
+
         let arr = ['orangered' , 'firebrick' , 'orange' , 'salmon', 'lemonchiffon' , 'darkkhaki' , 'limegreen']
+        
         let i = 0; 
         let intervalId;
         function startInterval(){
@@ -163,21 +168,22 @@ setInterval(stopTime , 1000)
             intervalId = setInterval(()=>{
           document.querySelector('#wrapper').style.backgroundColor = arr[i];
           i++;
+
           i = i%arr.length;
         } , 1000)
         }
         function stopInterval(intervalId){
+
             if(intervalId){
                 clearInterval(intervalId);
                 intervalId = null;
             }
-        }
-       
+          }
+     
+        //   Math.floor(Math.random() *(max - min + 1) +  min)
 
         let answer = Math.floor((Math.random() *100 + 1))
-
         console.log(answer);
-
         let guessRemaining = Number(document.querySelector('.guessesLeft').innerHTML);
         let guessedValues = document.querySelector('.guessedValues');
         // console.log(guessRemaining);
@@ -207,7 +213,7 @@ setInterval(stopTime , 1000)
                         //phle display krdoo guess jo aya hain
                         checkGuess(guessNode.value);
                         
-                        displayGuesses(guessNode.value);
+                         displayGuesses(guessNode.value);
 
                        
                     }else{
@@ -277,13 +283,12 @@ setInterval(stopTime , 1000)
 
                const button = document.querySelector('.start');
                 button.addEventListener('click', (event)=>{
-               
-                    answer = Math.floor((Math.random() *100 + 1))
+                 answer = Math.floor((Math.random() *100 + 1))
                 previousGuesses =[];
                 guessRemaining = 10;
                 guessedValues.innerHTML = ``
                 document.querySelector('.guessesLeft').innerHTML = "10";
-                guessNode.removeAttribute('disabled')
+                // guessNode.removeAttribute('disabled')
                 document.querySelector('.result').removeChild(document.querySelector('.start'));
                 messageNode.innerHTML = '';
                 playGame = true;
@@ -293,7 +298,7 @@ setInterval(stopTime , 1000)
                 //condition for timer and bg change start
                 firstClick = false;
                 
-                //add jo hataya tha
+                //add jo  hataya hain
                 document.querySelector('.removee').appendChild(forRemovingaftergameend);
                 time = 20
                document.querySelector(".clock").innerHTML = `${time}`;
@@ -302,7 +307,6 @@ setInterval(stopTime , 1000)
             })
             
         }
-
         function endGame(){
             //color
             playGame = false;
@@ -313,9 +317,6 @@ setInterval(stopTime , 1000)
             //to stop the time and initize it to 20
             time = 0;
             stopTime();
-
-
-
             // guessNode.value = ''
             // guessNode.setAttribute('disabled', '')
 
