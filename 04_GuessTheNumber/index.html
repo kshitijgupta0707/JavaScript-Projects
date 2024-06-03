@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Number Guessing Game</title>
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        #wrapper{
+            height: 100vh;
+            width: 100%;
+            overflow-y: auto;
+             display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center; 
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 40%;
+            background-color: rgba(201, 169, 169, 0.682);
+            color: black;
+
+        }
+        h2{
+            background-color: black;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 30px;
+        }
+        p{
+            font-size: 15px;
+            text-align: center;
+        }
+        form{
+            font-size: 25px;
+            text-align: center;
+        }
+        #guessedInput{
+            width: 40%;
+            height: 30px;
+            margin: 20px 0;
+        }
+        #subt{
+            background-color: #062bff;
+            padding:5px 10px;
+            font-size: 20px;
+            /* margin-bottom: 30px; */
+            border-radius: 10px;
+            border: none;
+        }
+        .message{
+            color: red;
+            font-size: 20px;
+        }
+        span{
+            color: darkred;
+        }
+        .timer{
+            width: 200px;
+            height: 200px;
+            font-size: 30px;
+            background-color: rgb(104, 104, 104);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+        }
+    </style>
+  </head>
+  <body style="background-color: #212121; color: #fff">
+    <div id="wrapper">
+        <div class="timer">
+        
+        <div class="clock">
+          20 sec
+        </div>
+    </div>
+    <div class="container">
+        <h2>Number guessing game</h2>
+        <p>Try and guess a random number between 1 and 100.</p>
+        <p>You have 10 attempts to guess the right number.</p> 
+        <div class="removee">
+            
+            <div class="forRemovingaftergameend">
+                <form class="form"> 
+                    <input type="text" id="guessedInput" > <br>
+                    
+                </label>
+                <input type="submit" id="subt" value="Submit guess" >
+            </form> 
+        </div>
+        
+        </div>
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+        <p class="result" ></p>
+        <p>Previous Gueses: <span class="guessedValues"></span> </p>
+        <p >Guesses Remaining: <span class="guessesLeft">10</span></p>
+        <p class="message">  </p>
+    
+</div>
+
+</div>
+    </div>
+    <script>
+        
+        let playGame = true;
+        let timeId
+        
+        let firstClick = false;
+
+        //     //timer
+        let time = 20;
+    function startTime(){
+
+        if(timeId){
+            stopTime();
+        }
+        time = 20
+        document.querySelector(".clock").innerHTML = `${time} sec`;
+         timeId = setInterval(() => {
+        time--;
+        document.querySelector(".clock").innerHTML = `${time} sec`;
+        
+    }, 1000);
+}
+
+function stopTime(){
+    if(time == 0){
+        if(timeId){
+            clearInterval(timeId);
+            timeId = null;
+            
+            document.querySelector(".clock").innerHTML = `Time over`;
+                   if(playGame){
+
+                       printMessage(`Game Over. Random number was ${answer}`);
+                       endGame();
+                   }
+
+        }
+    }
+} 
+
+setInterval(stopTime , 1000)
+
+        //background color changer
+        let arr = ['orangered' , 'firebrick' , 'orange' , 'salmon', 'lemonchiffon' , 'darkkhaki' , 'limegreen']
+        let i = 0; 
+        let intervalId;
+        function startInterval(){
+            if(intervalId){
+                stopInterval(intervalId)
+            }
+            intervalId = setInterval(()=>{
+          document.querySelector('#wrapper').style.backgroundColor = arr[i];
+          i++;
+          i = i%arr.length;
+        } , 1000)
+        }
+        function stopInterval(intervalId){
+            if(intervalId){
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+       
+
+        let answer = Math.floor((Math.random() *100 + 1))
+
+        console.log(answer);
+
+        let guessRemaining = Number(document.querySelector('.guessesLeft').innerHTML);
+        let guessedValues = document.querySelector('.guessedValues');
+        // console.log(guessRemaining);
+        let guessNode = document.querySelector('#guessedInput');
+        let messageNode = document.querySelector('.message');
+        let previousGuesses = []
+        let form = document.querySelector('.form');
+        let correctInput = true;
+        
+           if(playGame){
+               form.addEventListener('submit' , (event) =>{
+                   event.preventDefault();
+                    
+                   //validate ho gya ki shi aya hain no.
+                   validateGuess(Number(guessNode.value))
+       
+                    if(correctInput){
+
+                        if(!firstClick){
+
+                            startTime();
+                          startInterval(intervalId);
+
+                            firstClick = true;
+                        }
+
+                        //phle display krdoo guess jo aya hain
+                        checkGuess(guessNode.value);
+                        
+                        displayGuesses(guessNode.value);
+
+                       
+                    }else{
+                        guessNode.value = "";
+                        correctInput = true;
+                    }
+       
+       
+               } )
+
+           }
+  
+
+           
+           
+           
+        function validateGuess(guess){
+               if(isNaN(guess) || guess == ""){
+                   alert("Enter the number ");
+                   correctInput = false;
+                }else if(guess > 100){
+                    alert("Enter a number less than 100");
+                    correctInput = false;
+                }else if(guess < 1){
+                    alert("Enter a number greater than 0");
+                    correctInput = false;
+                } 
+                
+            }
+        function checkGuess(guess){
+               
+                if(answer == guess){
+                     printMessage("You guessed it right")
+                     endGame();
+                }
+                else if(answer < guess){
+                    printMessage("Your guess is too high");
+                                }
+                else{
+                    //your guess it too low
+                    printMessage("Your guess is too low");
+                              }
+                            }  
+        function displayGuesses(guess){
+                guessNode.value = ''
+                previousGuesses.push(guess);
+                guessRemaining--;
+                guessedValues.innerHTML += ` ${guess}`
+                document.querySelector('.guessesLeft').innerHTML = `${guessRemaining}`
+                if(guessRemaining == 0){
+                        printMessage(`Game Over. Random number was ${answer}`);
+                         endGame();
+                }
+                
+                
+                
+            }     
+        function printMessage(message){
+           messageNode.innerHTML = `${message}`;
+        }
+        function newGame(){
+          //remove submit and input box
+            const forRemovingaftergameend = document.querySelector('.forRemovingaftergameend');
+            document.querySelector('.removee').removeChild(forRemovingaftergameend);
+            
+            
+
+               const button = document.querySelector('.start');
+                button.addEventListener('click', (event)=>{
+               
+                    answer = Math.floor((Math.random() *100 + 1))
+                previousGuesses =[];
+                guessRemaining = 10;
+                guessedValues.innerHTML = ``
+                document.querySelector('.guessesLeft').innerHTML = "10";
+                guessNode.removeAttribute('disabled')
+                document.querySelector('.result').removeChild(document.querySelector('.start'));
+                messageNode.innerHTML = '';
+                playGame = true;
+                
+                
+                //2 click p start krma h 1 toh start ka
+                //condition for timer and bg change start
+                firstClick = false;
+                
+                //add jo hataya tha
+                document.querySelector('.removee').appendChild(forRemovingaftergameend);
+                time = 20
+               document.querySelector(".clock").innerHTML = `${time}`;
+        
+            
+            })
+            
+        }
+
+        function endGame(){
+            //color
+            playGame = false;
+            
+            //to stop the change of bg color
+            stopInterval(intervalId);
+
+            //to stop the time and initize it to 20
+            time = 0;
+            stopTime();
+
+
+
+            // guessNode.value = ''
+            // guessNode.setAttribute('disabled', '')
+
+            //to show start again button
+            const p = document.createElement('p')
+            //  p.value = "Start again"
+            p.innerHTML = "Start Again";
+             p.className = 'start'
+             p.style.padding = '10px'
+             p.style.backgroundColor = 'lightblue'
+             p.style.color = 'black';
+             p.style.width = 'max-content'
+             p.style.margin = 'auto'
+             document.querySelector('.result').appendChild(p);
+             newGame();
+            
+               
+        }
+    </script>
+  </body>
+</html>

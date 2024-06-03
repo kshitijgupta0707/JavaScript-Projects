@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: content-box;
+      }
+      .wrapper {
+        width: 100%;
+        height: 100vh;
+        overflow-y: auto;
+      }
+      .container {
+        
+        height: 100vh;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.705);
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+      }
+      .clock {
+        background-color: orange;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="container">
+        <div>Your Local time</div>
+        <div class="clock"></div>
+      </div>
+    </div>
+
+    <script>
+      setInterval(() => {
+        let date = new Date();
+        let hours = date.getHours();
+        let min = date.getMinutes();
+        let sec = date.getSeconds();
+        let ans
+        if(hours >= 12){
+          ans = 'PM';
+       }
+       else{
+        ans = 'AM';
+       }
+        var currentTime = `${hours} : ${min} : ${sec}  ${ans}`;
+        // let currentTime = date.toLocaleTimeString();
+        document.querySelector(".clock").innerHTML = currentTime;
+        console.log(currentTime);
+      }, 1000);
+    </script>
+  </body>
+</html>
