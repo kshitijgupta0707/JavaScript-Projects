@@ -112,7 +112,23 @@
 </div>
     </div>
     <script>
-        
+
+        document.addEventListener('DOMContentLoaded', () => {
+                window.addEventListener('load', function() {
+  console.log('Page fully loaded');
+});
+  
+document.addEventListener('click', (event)=>{
+    console.log(` ${event.clientX} and ${event.clientY}`);
+}
+    )
+})
+    
+   
+
+
+
+       
         let playGame = true;
         let timeId
         
@@ -332,9 +348,11 @@ function stopTime(){
              p.style.margin = 'auto'
              document.querySelector('.result').appendChild(p);
              newGame();
-            
-               
         }
+              
+   
+
+     
     </script>
   </body>
 </html>
